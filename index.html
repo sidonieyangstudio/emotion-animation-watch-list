@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="給大人陪孩子看短動畫、認識情緒時使用的觀察清單與推薦書單。">
+  <title>情緒動畫陪看清單｜Sidonie 松鼠媽</title>
+  <style>
+    :root {
+      --canvas: #FEFBF9;
+      --surface: #FFF3EE;
+      --brand: #C78E78;
+      --brand-soft: #F7DCD1;
+      --cta: #DA844F;
+      --text: #5E5453;
+      --muted: #6C6160;
+      --brand-ink: #55361F;
+      --line: #E7C9BE;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--canvas); color: var(--text); font-family: "Huninn", "PingFang TC", "Noto Sans TC", sans-serif; line-height: 1.72; }
+    main { width: min(100% - 32px, 1120px); margin: 32px auto 64px; }
+    header, section { border: 1px solid var(--line); background: var(--canvas); padding: clamp(22px, 4vw, 38px); }
+    header { border-radius: 8px 8px 0 0; border-bottom: 0; }
+    section { border-radius: 8px; margin-top: 18px; }
+    .eyebrow { margin: 0 0 8px; color: var(--brand-ink); font-weight: 700; letter-spacing: .08em; font-size: .9rem; }
+    h1, h2, h3 { color: var(--text); line-height: 1.35; }
+    h1 { margin: 0; font-size: clamp(1.8rem, 5vw, 2.55rem); }
+    h2 { margin: 0 0 14px; font-size: 1.45rem; }
+    h3 { margin: 0 0 8px; font-size: 1.16rem; }
+    p { margin: 8px 0; }
+    .intro { max-width: 50rem; color: var(--muted); }
+    .tabs { display: flex; gap: 8px; flex-wrap: wrap; padding: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 0 0 8px 8px; }
+    .tab { appearance: none; cursor: pointer; border: 1px solid var(--brand); border-radius: 6px; background: transparent; color: var(--brand-ink); padding: 9px 14px; font: inherit; font-weight: 700; }
+    .tab[aria-selected="true"] { background: var(--brand); color: var(--canvas); }
+    .panel { display: none; }
+    .panel.is-active { display: block; }
+    .guide { background: var(--surface); border-left: 4px solid var(--cta); padding: 12px 16px; }
+    ol { margin: 10px 0 0; padding-left: 1.35em; }
+    .starter-video-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .starter-video-card { min-width: 0; padding: 0; overflow: hidden; }
+    .starter-video { display: block; color: inherit; text-decoration: none; }
+    .starter-video:hover, .starter-video:focus-visible { outline: 3px solid var(--brand-soft); outline-offset: 2px; }
+    .starter-video img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+    .starter-video-card h3 { margin: 16px 18px 8px; }
+    .starter-video-card .video-subtitle, .starter-video-card .meta, .starter-video-card dl { margin-left: 18px; margin-right: 18px; }
+    .video-subtitle { color: var(--muted); }
+    .video-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; }
+    .video-column { display: grid; gap: 14px; }
+    article { min-width: 0; border: 1px solid var(--line); border-radius: 7px; padding: 18px; background: var(--canvas); }
+    .video-column:first-child article:first-child { border-color: var(--brand); background: #FFF8F5; }
+    .meta { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 12px; }
+    .pill { display: inline-block; background: var(--brand-soft); color: var(--brand-ink); border-radius: 5px; padding: 2px 9px; font-size: .88rem; }
+    dl { display: grid; grid-template-columns: 80px 1fr; gap: 6px 12px; margin: 0; }
+    dt { color: var(--muted); font-weight: 700; }
+    dd { min-width: 0; margin: 0; overflow-wrap: anywhere; }
+    a { color: var(--brand-ink); font-weight: 700; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    .watch-link { display: inline-block; margin-top: 12px; background: var(--cta); color: #fff; padding: 7px 11px; border-radius: 5px; text-decoration: none; }
+    .book-intro { color: var(--muted); max-width: 52rem; }
+    .source-images { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 18px 0 22px; }
+    .source-image { margin: 0; border: 1px solid var(--line); background: var(--surface); padding: 8px; }
+    .source-image img { display: block; width: 100%; height: auto; }
+    .source-image figcaption { padding: 8px 4px 0; color: var(--muted); font-size: .9rem; }
+    .source-link { color: var(--brand-ink); }
+    .book-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; list-style: none; padding: 0; margin: 18px 0 0; counter-reset: books; }
+    .book-list li { counter-increment: books; border-top: 2px solid var(--brand-soft); padding: 12px 10px 10px 36px; position: relative; }
+    .book-list li::before { content: counter(books); position: absolute; left: 0; top: 12px; color: var(--brand-ink); font-weight: 700; }
+    .book-covers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin: 18px 0 22px; }
+    .book-cover { margin: 0; border: 1px solid var(--line); background: var(--surface); padding: 12px; }
+    .book-cover img { display: block; width: min(100%, 260px); aspect-ratio: 3 / 4; object-fit: contain; margin: 0 auto; }
+    .book-cover figcaption { padding: 10px 4px 0; color: var(--text); font-weight: 700; text-align: center; }
+    .book-title { display: block; color: var(--text); font-weight: 700; }
+    .book-author { display: block; color: var(--muted); font-size: .94rem; margin-top: 3px; }
+    .source-note { margin-top: 18px; background: var(--surface); padding: 12px 16px; color: var(--muted); font-size: .94rem; }
+    .book-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0; }
+    .book-tab { appearance: none; cursor: pointer; border: 1px solid var(--brand); border-radius: 6px; background: transparent; color: var(--brand-ink); padding: 8px 12px; font: inherit; font-weight: 700; }
+    .book-tab.is-active { background: var(--brand); color: var(--canvas); }
+    .book-panel { display: none; }
+    .book-panel.is-active { display: block; }
+    footer { padding: 24px 4px 8px; color: var(--muted); font-size: .92rem; }
+    .provider { color: var(--brand-ink); font-weight: 700; }
+    @media (max-width: 760px) {
+      main { width: min(100% - 24px, 1120px); margin-top: 12px; }
+      header, section { padding: 22px; }
+      .video-grid, .book-list, .starter-video-grid, .source-images, .book-covers { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 460px) {
+      dl { grid-template-columns: 1fr; gap: 2px; }
+      dd { margin-bottom: 8px; }
+
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">親子陪看工具</p>
+      <h1>情緒動畫陪看清單</h1>
+      <p class="intro">用角色的臉、手、身體動作與情境，陪孩子練習看見情緒。每次只要挑一部，停下來聊一個小地方就好。</p>
+    </header>
+
+    <nav class="tabs" aria-label="清單分頁" role="tablist">
+      <button class="tab" type="button" role="tab" id="tab-videos" aria-controls="panel-videos" aria-selected="true">情緒動畫陪看清單</button>
+      <button class="tab" type="button" role="tab" id="tab-books" aria-controls="panel-books" aria-selected="false">推薦情緒用書</button>
+    </nav>
+
+    <div class="panel is-active" id="panel-videos" role="tabpanel" aria-labelledby="tab-videos">
+      <section>
+        <h2>怎麼用</h2>
+        <ol>
+          <li>每次只選 1 部，先看 30 秒到 1 分鐘。</li>
+          <li>停在表情或動作變化最明顯的地方，只問 1 題。</li>
+          <li>孩子不想回答時，可以指一指、選圖卡，或由大人先說自己的觀察。</li>
+          <li>第一次看含誤會、孤單、失敗或緊張畫面的片，請大人先預看。</li>
+        </ol>
+        <p class="guide"><strong>提醒：</strong>孩子正處於強烈情緒時，先安定與陪伴，等平靜一些再用影片聊天。</p>
+      </section>
+
+      <section>
+        <h2>先從這 3 部開始</h2>
+        <div class="starter-video-grid">
+          <article class="starter-video-card">
+            <a class="starter-video" href="https://www.youtube.com/watch?v=P7k2MkVYLDE" target="_blank" rel="noopener noreferrer"><img src="https://i.ytimg.com/vi/P7k2MkVYLDE/hqdefault.jpg" alt="Runaway 的 YouTube 影片縮圖"></a>
+            <h3>1. Runaway</h3>
+            <p class="video-subtitle">一場誤會後，Chillie 覺得很傷心，決定自己離開。</p>
+            <p class="meta"><span class="pill">3:40</span><span class="pill">傷心、誤會、逃開、重新相遇</span></p>
+            <dl><dt>看什麼</dt><dd>Chillie 的表情和動作怎麼變了？</dd><dt>暫停問</dt><dd>如果你是 Chillie，你會想讓對方知道什麼？</dd></dl>
+          </article>
+          <article class="starter-video-card">
+            <a class="starter-video" href="https://www.youtube.com/watch?v=PDHIyrfMl_U" target="_blank" rel="noopener noreferrer"><img src="https://i.ytimg.com/vi/PDHIyrfMl_U/hqdefault.jpg" alt="Alike 的 YouTube 影片縮圖"></a>
+            <h3>2. Alike</h3>
+            <p class="video-subtitle">一個爸爸想帶兒子走上「對的路」，卻慢慢看見兩人的日子變得灰灰的。</p>
+            <p class="meta"><span class="pill">8:01</span><span class="pill">壓力、悶、好奇、親子連結</span></p>
+            <dl><dt>看什麼</dt><dd>Copi 和 Paste 什麼時候開始不一樣？</dd><dt>暫停問</dt><dd>哪一個畫面讓你覺得他們比較有精神？為什麼？</dd></dl>
+          </article>
+          <article class="starter-video-card">
+            <a class="starter-video" href="https://www.youtube.com/watch?v=zON0wDD7VJY" target="_blank" rel="noopener noreferrer"><img src="https://i.ytimg.com/vi/zON0wDD7VJY/hqdefault.jpg" alt="The Wishgranter 的 YouTube 影片縮圖"></a>
+            <h3>3. The Wishgranter</h3>
+            <p class="video-subtitle">一個本來懶得理願望的許願精靈，遇見一個和喜歡有關的願望。</p>
+            <p class="meta"><span class="pill">4:48</span><span class="pill">孤單、期待、喜歡、勇敢</span></p>
+            <dl><dt>看什麼</dt><dd>他後來為什麼願意走出去？</dd><dt>暫停問</dt><dd>你從哪個表情或動作看出他在猶豫？</dd></dl>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>再從這 10 部延伸</h2>
+        <div class="video-grid">
+          <div class="video-column">
+            <article><h3>1. Pip</h3><p class="meta"><span class="pill">4:05</span><span class="pill">挫折、努力、被支持</span></p><dl><dt>看什麼</dt><dd>挫折、不服輸、努力、被支持。</dd><dt>暫停問</dt><dd>他現在最想做到什麼？你從哪個動作看出來？</dd></dl><a class="watch-link" href="https://www.youtube.com/watch?v=07d2dXHYb94" target="_blank" rel="noopener noreferrer">開啟影片</a></article>
+            <article><h3>2. The Present</h3><p class="meta"><span class="pill">4:19</span><span class="pill">抗拒、驚訝、連結</span></p><dl><dt>看什麼</dt><dd>不耐煩、抗拒、驚訝、連結。</dd><dt>暫停問</dt><dd>他一開始和後來的臉有什麼不一樣？</dd><dt>提醒</dt><dd>有身體差異議題，請大人先看。</dd></dl><a class="watch-link" href="https://www.youtube.com/watch?v=3XA0bB79oGc" target="_blank" rel="noopener noreferrer">開啟影片</a></article>
+            <article><h3>3. Snack Attack</h3><p class="meta"><span class="pill">4:42</span><span class="pill">生氣、誤會、尷尬、抱歉</span></p><dl><dt>看什麼</dt><dd>生氣、誤會、尷尬、抱歉。</dd><dt>暫停問</dt><dd>他為什麼以為對方在做那件事？</dd></dl><a class="watch-link" href="https://www.youtube.com/watch?v=38y_1EWIE9I" target="_blank" rel="noopener noreferrer">開啟影片</a></article>
+            <article><h3>4. Mr Indifferent</h3><p class="meta"><span class="pill">2:46</span><span class="pill">受傷、同理、改變</span></p><dl><dt>看什麼</dt><dd>冷漠、受傷、同理、改變。</dd><dt>暫停問</dt><dd>他看到別人難過時，身體有沒有改變？</dd></dl><a class="watch-link" href="https://www.youtube.com/watch?v=qLGNj-xrgvY" target="_blank" rel="noopener noreferrer">開啟影片</a></article>
+            <article><h3>5. First Comes Love</h3><p class="meta"><span class="pill">2:27</span><span class="pill">喜歡、害羞、期待、失落</span></p><dl><dt>看什麼</dt><dd>喜歡、害羞、期待、失落。</dd><dt>暫停問</dt><dd>他的手和眼睛現在在說什麼？</dd></dl><a class="watch-link" href="https://www.youtube.com/watch?v=XXhsh9nvgyg" target="_blank" rel="noopener noreferrer">開啟影片</a></article>
+          </div>
+          <div class="video-column">
+            <article><h3>6. Mime Your Manners</h3><p class="meta"><span class="pill">3:22</span><span class="pill">困惑、界線、修正</span></p><dl><dt>看什麼</dt><dd>不高興、困惑、互動界線、修正。</dd><dt>暫停問</dt><dd>他們怎麼知道對方不舒服？</dd></dl><a class="watch-link" href="https://www.youtube.com/watch?v=83yqxdMA4A4" target="_blank" rel="noopener noreferrer">開啟影片</a></article>
+            <article><h3>7. The Robot and the Whale</h3><p class="meta"><span class="pill">6:23</span><span class="pill">害怕、猶豫、勇敢、關心</span></p><dl><dt>看什麼</dt><dd>害怕、猶豫、勇敢、關心。</dd><dt>暫停問</dt><dd>害怕的時候，他的身體看起來怎樣？</dd><dt>提醒</dt><dd>有緊張片段，敏感孩子請先預看。</dd></dl><a class="watch-link" href="https://www.youtube.com/watch?v=0-aaUwiacxY" target="_blank" rel="noopener noreferrer">開啟影片</a></article>
+            <article><h3>8. The Social Chameleon</h3><p class="meta"><span class="pill">9:21</span><span class="pill">融入、尷尬、接納</span></p><dl><dt>看什麼</dt><dd>想融入、尷尬、做自己、被接納。</dd><dt>暫停問</dt><dd>他努力融入時，表情和身體是緊還是鬆？</dd><dt>提醒</dt><dd>比較長，可拆成兩次看。</dd></dl><a class="watch-link" href="https://www.youtube.com/watch?v=-gL8UIlueWI" target="_blank" rel="noopener noreferrer">開啟影片</a></article>
+            <article><h3>9. Rita’s Great Trek</h3><p class="meta"><span class="pill">3:41</span><span class="pill">興奮、害怕、堅持、自豪</span></p><dl><dt>看什麼</dt><dd>興奮、害怕、堅持、完成後的自豪。</dd><dt>暫停問</dt><dd>緊張時，她的身體給了什麼線索？</dd></dl><a class="watch-link" href="https://www.youtube.com/watch?v=Rk-ahO4JtP4" target="_blank" rel="noopener noreferrer">開啟影片</a></article>
+            <article><h3>10. Watch Your Feelings</h3><p class="meta"><span class="pill">3:06</span><span class="pill">情緒的外顯表現</span></p><dl><dt>看什麼</dt><dd>各種情緒的外顯表現。</dd><dt>暫停問</dt><dd>你看到哪個臉、手或身體線索？</dd></dl><a class="watch-link" href="https://www.youtube.com/watch?v=xwcmp1eXYK4" target="_blank" rel="noopener noreferrer">開啟影片</a></article>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="panel" id="panel-books" role="tabpanel" aria-labelledby="tab-books" hidden>
+      <section>
+        <p class="eyebrow">推薦書單</p>
+        <p class="book-intro">可依孩子當下最常遇到的情境挑 1 本一起讀。讀完先停在一個角色的感覺或做法，不需要一次把書裡的道理講完。</p>
+        <div class="book-tabs" aria-label="書單分頁">
+          <button class="book-tab is-active" type="button" data-book-panel="panel-teacher-xu">徐老師推薦書單</button>
+          <button class="book-tab" type="button" data-book-panel="panel-teacher-luoluoshe">羅羅蛇老師推薦清單</button>
+        </div>
+        <div class="book-panel is-active" id="panel-teacher-xu">
+        <h2>徐老師推薦書單</h2>
+        <div class="book-covers" aria-label="徐老師推薦書單前兩本書封">
+          <figure class="book-cover">
+            <img src="assets/xu-school-fox.png" alt="《學校有一隻大狐狸》書封">
+            <figcaption>《學校有一隻大狐狸》</figcaption>
+          </figure>
+          <figure class="book-cover">
+            <img src="assets/xu-wish-fall.png" alt="《討厭的人都跌倒吧》書封">
+            <figcaption>《討厭的人都跌倒吧》</figcaption>
+          </figure>
+        </div>
+        <ol class="book-list">
+          <li><span class="book-title">《學校有一隻大狐狸》</span><span class="book-author">蘿拉・杜邦、歐立維・杜邦</span></li>
+          <li><span class="book-title">《討厭的人都跌倒吧》</span><span class="book-author">吉竹伸介</span></li>
+          <li><span class="book-title">《我想聽的話：爸媽怎麼說，孩子才會想聽？》</span><span class="book-author">李定原；原文作者：이정원</span></li>
+          <li><span class="book-title">《看不到的小東西：一本幫助你了解自己也理解別人的神奇繪本》</span><span class="book-author">安迪．J. 比薩、蘇菲．米勒</span></li>
+          <li><span class="book-title">《我們都是人：一起練習同理心》</span><span class="book-author">蘇珊．維爾德</span></li>
+          <li><span class="book-title">《我可以很平靜：一起練習正念靜心》</span><span class="book-author">蘇珊．維爾德</span></li>
+          <li><span class="book-title">《我可以帶來改變》</span><span class="book-author">蘇珊．維爾德</span></li>
+          <li><span class="book-title">《小小哲學家系列》：〈為什麼會生氣？〉、〈被欺負了怎麼辦？〉、〈可以跟你做朋友嗎？〉、〈為什麼要說對不起？〉</span><span class="book-author">蘇菲．弗爾羅</span></li>
+          <li><span class="book-title">《過動兒自覺繪本：李宏鎰教授 × 黃彥鈞老師帶領》</span><span class="book-author">李宏鎰、黃彥鈞</span></li>
+          <li><span class="book-title">《小怪獸波波利就這樣克服了怒氣》</span><span class="book-author">新井洋行</span></li>
+          <li><span class="book-title">《我的情緒遊戲書：和自己的情緒做好朋友》</span><span class="book-author">呂俐安、陳質采</span></li>
+          <li><span class="book-title">《EQ 魔法學校 ④ 我是幸福魔法師：二年級／下冊套書》</span><span class="book-author">楊俐容、李依親、黃宜珊</span></li>
+          <li><span class="book-title">《好好說情緒：引導孩子認識、表達、處理 45 種日常情緒》</span><span class="book-author">李 Laila</span></li>
+          <li><span class="book-title">《小小哲學家系列：我可以很勇敢》</span><span class="book-author">蘇菲．弗爾羅</span></li>
+          <li><span class="book-title">《情緒都在忙什麼？》</span><span class="book-author">緹娜・奧偕維茲</span></li>
+          <li><span class="book-title">《情緒大飯店》</span><span class="book-author">莉迪亞．布蘭科維琪</span></li>
+          <li><span class="book-title">《山姆和瓦森：我是情緒的主人》</span><span class="book-author">吉斯蘭．杜利耶</span></li>
+          <li><span class="book-title">《阿迪與他的同學們：要不要說呢？》</span><span class="book-author">柯宥璿</span></li>
+        </ol>
+        <p class="source-note"><strong>書單來源：</strong>徐老師提供。</p>
+        </div>
+        <div class="book-panel" id="panel-teacher-luoluoshe" hidden>
+          <h2><a class="source-link" href="http://musk158.blogspot.com/" target="_blank" rel="noopener noreferrer">羅羅蛇老師推薦</a>清單</h2>
+          <p class="book-intro">以下保留羅羅蛇老師整理的兩張故事四部曲推薦圖，方便一起對照書單。</p>
+          <div class="source-images" aria-label="羅羅蛇老師的故事四部曲推薦圖">
+            <figure class="source-image">
+              <a href="http://musk158.blogspot.com/" target="_blank" rel="noopener noreferrer" aria-label="前往羅羅蛇老師原始推薦頁面">
+                <img src="assets/luoluoshe-list-1.jpg" alt="羅羅蛇的驚嘆號故事四部曲推薦圖，包含窗裡有什麼、牛言蜚語、喜歡的事和不擅長的事、我想聽的話。">
+              </a>
+              <figcaption>故事四部曲推薦圖 1</figcaption>
+            </figure>
+            <figure class="source-image">
+              <a href="http://musk158.blogspot.com/" target="_blank" rel="noopener noreferrer" aria-label="前往羅羅蛇老師原始推薦頁面">
+                <img src="assets/luoluoshe-list-2.jpg" alt="羅羅蛇的驚嘆號故事四部曲推薦圖，包含蝸牛騎士、抓不到我、一定是貓做的、千飴糖。">
+              </a>
+              <figcaption>故事四部曲推薦圖 2</figcaption>
+            </figure>
+          </div>
+          <ol class="book-list">
+            <li><span class="book-title">《牛言蜚語》</span></li>
+            <li><span class="book-title">《一定是貓做的》</span></li>
+            <li><span class="book-title">《抓不到我》</span></li>
+            <li><span class="book-title">《千飴糖》</span></li>
+            <li><span class="book-title">《我的粉蠟筆》</span></li>
+            <li><span class="book-title">《蝸牛騎士》</span></li>
+            <li><span class="book-title">《你送玫瑰，我送什麼呢？》</span></li>
+            <li><span class="book-title">《蜘蛛和蒼蠅》</span></li>
+            <li><span class="book-title">《我想聽的話》</span></li>
+            <li><span class="book-title">《喜歡的事和不擅長的事》</span></li>
+            <li><span class="book-title">《窗裡有什麼？》</span></li>
+          </ol>
+          <p class="source-note"><strong>書單來源：</strong><a href="http://musk158.blogspot.com/" target="_blank" rel="noopener noreferrer">羅羅蛇老師推薦</a>。</p>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <p><span class="provider">資訊整理者：Sidonie 松鼠媽</span></p>
+      <p>影片連結於 2026-08-14 以 YouTube oEmbed 回應確認可取得標題。影片可觀看性與播放清單權限仍可能隨 YouTube 設定變動。</p>
+    </footer>
+  </main>
+  <script>
+    const tabs = document.querySelectorAll('[role="tab"]');
+    const panels = document.querySelectorAll('[role="tabpanel"]');
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const target = tab.getAttribute('aria-controls');
+        tabs.forEach((item) => item.setAttribute('aria-selected', String(item === tab)));
+        panels.forEach((panel) => {
+          const active = panel.id === target;
+          panel.classList.toggle('is-active', active);
+          panel.hidden = !active;
+        });
+      });
+    });
+    const bookTabs = document.querySelectorAll('.book-tab');
+    const bookPanels = document.querySelectorAll('.book-panel');
+    bookTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.bookPanel;
+        bookTabs.forEach((item) => item.classList.toggle('is-active', item === tab));
+        bookPanels.forEach((panel) => {
+          const active = panel.id === target;
+          panel.classList.toggle('is-active', active);
+          panel.hidden = !active;
+        });
+      });
+    });
+    const reportEmbedHeight = () => {
+      window.parent.postMessage({
+        type: 'ofp-emotion-resource-height',
+        height: document.documentElement.scrollHeight,
+      }, '*');
+    };
+    new ResizeObserver(reportEmbedHeight).observe(document.body);
+    window.addEventListener('load', reportEmbedHeight);
+  </script>
+</body>
+</html>
