@@ -368,33 +368,24 @@
       });
     });
     const getActualHeight = () => {
-      const header = document.querySelector('header');
-      const nav = document.querySelector('.tabs');
-      const activePanel = document.querySelector('.panel.is-active') || document.querySelector('.panel:not([hidden])');
-      const headerH = header ? header.offsetHeight : 0;
-      const navH = nav ? nav.offsetHeight : 0;
-      let panelH = 0;
-      if (activePanel) {
-        if (activePanel.id === 'panel-books') {
-          const activeBookPanel = activePanel.querySelector('.book-panel.is-active') || activePanel.querySelector('.book-panel:not([hidden])');
-          const bookTabs = activePanel.querySelector('.book-tabs');
-          const bookIntro = activePanel.querySelector('.book-intro');
-          const h2 = activePanel.querySelector('h2');
-          panelH = (h2 ? h2.offsetHeight : 0) + (bookIntro ? bookIntro.offsetHeight : 0) + (bookTabs ? bookTabs.offsetHeight : 0) + (activeBookPanel ? activeBookPanel.offsetHeight : 0) + 60;
-        } else {
-          panelH = activePanel.offsetHeight;
-        }
+      const main = document.querySelector('main');
+      if (main) {
+        return Math.ceil(main.getBoundingClientRect().height + 40);
       }
-      return headerH + navH + panelH + 40;
+      return Math.ceil(document.body.getBoundingClientRect().height);
     };
     const reportEmbedHeight = () => {
-      window.parent.postMessage({
-        type: 'ofp-emotion-resource-height',
-        height: getActualHeight(),
-      }, '*');
+      requestAnimationFrame(() => {
+        const h = getActualHeight();
+        window.parent.postMessage({
+          type: 'ofp-emotion-resource-height',
+          height: h,
+        }, '*');
+      });
     };
-    new ResizeObserver(reportEmbedHeight).observe(document.body);
+    new ResizeObserver(reportEmbedHeight).observe(document.querySelector('main') || document.body);
     window.addEventListener('load', reportEmbedHeight);
+    window.addEventListener('resize', reportEmbedHeight);
   </script>
 </body>
 </html>
