@@ -113,7 +113,10 @@
       #panel-videos .starter-section { order: 1; }
       #panel-videos .how-to-section { order: 2; }
       #panel-videos .more-section { order: 3; }
-      .video-grid, .book-list, .starter-video-grid, .source-images, .book-covers, .feature-points, .worksheet-grid { grid-template-columns: 1fr; }
+      .book-list, .starter-video-grid, .source-images, .book-covers, .feature-points, .worksheet-grid { grid-template-columns: 1fr; }
+      .video-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+      .video-grid article { padding: 14px; }
+      .video-grid h3 { font-size: 1rem; overflow-wrap: anywhere; }
     }
     @media (max-width: 460px) {
       dl { grid-template-columns: 1fr; gap: 2px; }
